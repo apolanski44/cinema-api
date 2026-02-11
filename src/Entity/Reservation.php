@@ -24,10 +24,6 @@ class Reservation
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
-    private User $owner;
-
-    #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
     private Screening $screening;
 
     public function getId(): int
@@ -63,16 +59,6 @@ class Reservation
     public function setCustomerEmail(string $customerEmail): void
     {
         $this->customerEmail = $customerEmail;
-    }
-
-    public function getOwner(): User
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(User $owner): void
-    {
-        $this->owner = $owner;
     }
 
     public function getScreening(): Screening

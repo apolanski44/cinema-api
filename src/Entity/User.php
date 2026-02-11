@@ -33,12 +33,6 @@ class User
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
-    /**
-     * @var Collection<int, Reservation>
-     */
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'owner', orphanRemoval: true)]
-    private Collection $reservations;
-
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -99,26 +93,5 @@ class User
         if (!\in_array($roles->value, $this->roles)) {
             $this->roles[] = $roles->value;
         }
-    }
-
-    /**
-     * @return Collection<int, Reservation>
-     */
-    public function getReservations(): Collection
-    {
-        return $this->reservations;
-    }
-
-    public function addReservation(Reservation $reservation): void
-    {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations->add($reservation);
-            $reservation->setOwner($this);
-        }
-    }
-
-    public function removeReservation(Reservation $reservation): void
-    {
-        $this->reservations->removeElement($reservation);
     }
 }
