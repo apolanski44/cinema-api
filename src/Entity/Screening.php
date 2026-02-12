@@ -89,4 +89,22 @@ class Screening
     {
         $this->reservations->removeElement($reservation);
     }
+
+    public function toArray(): array
+{
+    return [
+        'id' => $this->getId(),
+        'movie' => $this->getMovie()->getTitle(),
+        'startTime' => $this->getStartTime()->format('Y-m-d H:i:s'),
+        'room' => [
+            'name' => $this->getRoom()->getName(),
+            'rows' => $this->getRoom()->getNumberOfRows(),
+            'seatsPerRow' => $this->getRoom()->getSeatsPerRow(),
+        ],
+        'occupiedSeats' => array_map(fn($res) => [
+            'row' => $res->getRowNumber(),
+            'seat' => $res->getSeatNumber()
+        ], $this->getReservations()->toArray())
+    ];
+}
 }

@@ -2,16 +2,16 @@
 
 namespace App\Entity;
 
+use App\Enum\UserRole;
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use UserRole;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'user')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', columns: ['email'])]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -32,11 +32,6 @@ class User
 
     #[ORM\Column(type: 'json')]
     private array $roles = [];
-
-    public function __construct()
-    {
-        $this->reservations = new ArrayCollection();
-    }
 
     public function getId(): int
     {
@@ -85,13 +80,32 @@ class User
 
     public function getRoles(): array
     {
-        return $this->roles;
+        $roles = $this->roles;
+     
+        return array_unique($roles);
     }
 
-    public function setRoles(UserRole $roles): void
+    /**
+     * @param UserRole[]|UserRole $roles
+     */
+    public function setRoles(array|UserRole $roles): void
     {
-        if (!\in_array($roles->value, $this->roles)) {
-            $this->roles[] = $roles->value;
+        if (is_array($roles)) {
+            $this->roles = array_map(fn(UserRole $role) => $role->value, $roles);
+        } else {
+            if (!\in_array($roles->value, $this->roles)) {
+                $this->roles[] = $roles->value;
+            }
         }
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
+        
     }
 }

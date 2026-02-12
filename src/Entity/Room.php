@@ -90,4 +90,15 @@ class Room
     {
         $this->screenings->removeElement($screening);
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'numberOfRows' => $this->getNumberOfRows(),
+            'seatsPerRow' => $this->getSeatsPerRow(),
+            'totalSeats' => $this->getNumberOfRows() * $this->getSeatsPerRow(),
+        ];
+    }
 }

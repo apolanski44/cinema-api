@@ -70,4 +70,20 @@ class Reservation
     {
         $this->screening = $screening;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'customerEmail' => $this->getCustomerEmail(),
+            'row' => $this->getRowNumber(),
+            'seat' => $this->getSeatNumber(),
+            'screening' => [
+                'id' => $this->getScreening()->getId(),
+                'movie' => $this->getScreening()->getMovie()->getTitle(),
+                'startTime' => $this->getScreening()->getStartTime()->format('Y-m-d H:i:s'),
+                'roomName' => $this->getScreening()->getRoom()->getName(),
+            ]
+        ];
+    }
 }
