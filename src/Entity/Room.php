@@ -6,6 +6,7 @@ use App\Repository\RoomRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Dto\RoomDto;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
@@ -100,5 +101,15 @@ class Room
             'seatsPerRow' => $this->getSeatsPerRow(),
             'totalSeats' => $this->getNumberOfRows() * $this->getSeatsPerRow(),
         ];
+    }
+
+    static function fromDto(RoomDto $dto): self
+    {
+        $room = new self();
+        $room->setName($dto->name);
+        $room->setNumberOfRows($dto->numberOfRows);
+        $room->setSeatsPerRow($dto->seatsPerRow);
+        
+        return $room;
     }
 }

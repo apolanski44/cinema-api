@@ -44,10 +44,7 @@ class RoomController extends AbstractController
         /** @var RoomDto $dto */
         $dto = $form->getData();
 
-        $room = new Room();
-        $room->setName($dto->name);
-        $room->setNumberOfRows($dto->numberOfRows);
-        $room->setSeatsPerRow($dto->seatsPerRow);
+        $room = Room::fromDto($dto);
 
         $this->em->persist($room);
         $this->em->flush();
