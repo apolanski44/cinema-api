@@ -1,10 +1,10 @@
 <?php 
 
 namespace App\Service;
+
 use App\DTO\ReservationDto;
 use App\Repository\ReservationRepository;
 use App\Repository\ScreeningRepository;
-use Dom\Entity;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Reservation;
 
@@ -17,13 +17,14 @@ final class ReservationService
 
     public function createReservation(ReservationDto $dto): array
     {
-        $screening    = $this->screeningRepository->find($dto->screeningId);
-        $room         = $screening->getRoom();
-        $reservations = [];
+        $screening = $this->screeningRepository->find($dto->screeningId);
 
-        if(!$screening) {
+        if (!$screening) {
             throw new \Exception('Screening is not available');
         }
+
+        $room = $screening->getRoom();
+        $reservations = [];
 
         foreach ($dto->seats as $seatData) {
             $row = $seatData->row;

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Service\ReservationService;
 use App\Form\ReservationType;
-use App\Dto\ReservationDto;
+use App\DTO\ReservationDto;
 
 #[Route('/api/reservations', name: 'api_reservations_')]
 class ReservationController extends AbstractController
