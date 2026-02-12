@@ -1,10 +1,10 @@
 <?php 
 
 namespace App\Service;
+
 use App\DTO\ReservationDto;
 use App\Repository\ReservationRepository;
 use App\Repository\ScreeningRepository;
-use Dom\Entity;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Reservation;
 
